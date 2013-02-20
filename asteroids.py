@@ -1,22 +1,28 @@
+#!/usr/bin/env python2
+
 import numpy as np
 import matplotlib.pyplot as plt
 import string
 
-date = np.genfromtxt("full_list.csv", delimiter = ",", dtype="object", usecols=2)
-print date.shape
+print "Fetching date..."
+date = np.genfromtxt("esa.csv", delimiter = ",", dtype="object", usecols=2)
+# print date.shape
 
-impact_prob = np.genfromtxt("full_list.csv", delimiter = ",", usecols=3, dtype="object")
-print impact_prob
+print "Fetching impact probability..."
+impact_prob = np.genfromtxt("esa.csv", delimiter = ",", usecols=3, dtype="object")
+# print impact_prob
 
-size = np.genfromtxt("full_list.csv", delimiter = ",", usecols=1)
+print "Fetching size..."
+size = np.genfromtxt("esa.csv", delimiter = ",", usecols=1)
 
+print "Calculating prob value..."
 probs = []
 for prob in impact_prob:
   prob = string.split(prob, "/")[1]
-  print prob
+  # print prob
   prob = float(prob)
   probs.append(np.log10(1/prob))
-print probs
+# print probs
 
 
 
@@ -24,7 +30,7 @@ years = []
 
 for year in date:
   year = year[0:4]
-  print year
+  # print year
   years.append(int(year))
   
 
@@ -37,4 +43,4 @@ plt.ylabel("log probability of impact")
 plt.savefig("probs.png")
 
 
-print np.sum(10**np.asarray(probs)), 'Sum of all probabilities'
+print 'Sum of all probabilities:', np.sum(10**np.asarray(probs))
